@@ -3,11 +3,30 @@ body {
 }
 
 .wrapper {
-  background-color: #d09c8e;
-  margin: 50px;
+  background-color: #d77067;
+  margin: 0px 30px 0px 30px;
+  min-height: 30rem;
 }
 
 .landing-text {
-  margin: 50px;
+  margin: 0px;
   padding: 50px;
+}
+
+header {
+  background-color: #d09c8e;
+  min-height: 10rem;
+  margin: 30px 30px 0px 30px;
+}
+
+nav {
+  background-color: #d09c8e;
+  margin: 0px 30px 0px 30px;
+}
+
+footer {
+  background-color: #724559;
+  text-align: center;
+  min-height: 10rem;
+  margin: 0px 30px 30px 30px;
 }
