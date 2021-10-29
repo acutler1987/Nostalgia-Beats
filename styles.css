@@ -1,5 +1,28 @@
 body {
   background-color: #f8efb6;
+  font-family: sans-serif;
+}
+
+header {
+  background-color: #d09c8e;
+  border-radius: 25px 25px 0px 0px;
+  min-height: 10rem;
+  margin: 30px 30px 0px 30px;
+}
+
+.header-text {
+  padding: 25px;
+  text-align: center;
+}
+
+nav {
+  background-color: #d09c8e;
+  margin: 0px 30px 0px 30px;
+}
+
+.nav-text {
+  padding: 25px;
+  text-align: center;
 }
 
 .wrapper {
@@ -8,25 +31,73 @@ body {
   min-height: 30rem;
 }
 
-.landing-text {
+.wrapper-text {
   margin: 0px;
   padding: 50px;
 }
 
-header {
-  background-color: #d09c8e;
-  min-height: 10rem;
-  margin: 30px 30px 0px 30px;
+.music-container {
+  border: 5px solid #f8efb6;
+  border-radius: 25px;
+  margin: 0 auto;
+  width: 50%;
 }
 
-nav {
+.music-menu {
+  background-color: #f8efb6;
+  border-radius: 25px;
+}
+
+ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: initial;
+}
+
+ul li {
   background-color: #d09c8e;
-  margin: 0px 30px 0px 30px;
+  border: 5px solid #f8efb6;
+  list-style-type: none;
+  text-align: center;
+}
+
+.music-playlist {
+  background-color: #fff;
+  border: 5px solid #724559;
+  border-radius: 25px;
+  margin: 0 auto;
+  max-width: 100%;
+  min-height: 100px;
+}
+
+.song-container {
+  border: 2px solid #000;
+  border-radius: 25px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  min-height: 30px;
+}
+
+.press-play {
+}
+
+.title {
+}
+
+.artist {
+}
+
+.album {
+}
+
+.length {
 }
 
 footer {
   background-color: #724559;
+  border-radius: 0px 0px 25px 25px;
   text-align: center;
   min-height: 10rem;
-  margin: 0px 30px 30px 30px;
+  margin: -30px 30px 30px 30px;
 }

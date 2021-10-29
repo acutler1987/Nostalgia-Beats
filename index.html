@@ -8,25 +8,49 @@
   <script src=""></script>
   <body>
     <header>
-      <h1>Nostalgia Beats</h1>
-      <p>an app powered by Spotify</p>
+      <div class="header-text">
+        <h1>Nostalgia Beats</h1>
+        <p><i>an app powered by Spotify</i></p>
+      </div>
     </header>
     <nav>
-      <div>
-        <label for="age">How old are you?</label>
-        <input type="text" id="age" name="age" /><br /><br />
-      </div>
-      <div>
-        <label for="cars">I want to hear music from...</label>
-        <select id="era" name="era">
-          <option value="college_years">my college years.</option>
-          <option value="high_school_years">my high school years.</option>
-          <option value="childhood">my childhood years.</option>
-        </select>
+      <div class="nav-text">
+        <div>
+          <label for="age">How old are you?</label>
+          <input type="text" id="age" name="age" /><br /><br />
+        </div>
+        <div>
+          <label for="cars">I want to hear music from...</label>
+          <select id="era" name="era">
+            <option value="college_years">my college years.</option>
+            <option value="high_school_years">my high school years.</option>
+            <option value="childhood">my childhood years.</option>
+          </select>
+        </div>
       </div>
     </nav>
     <div class="wrapper">
-      <div class="landing-text">
+      <div class="music-container">
+        <div class="music-menu">
+          <ul>
+            <li><a href="#">Songs</a></li>
+            <li><a href="#">Artists</a></li>
+            <li><a href="#">Year</a></li>
+          </ul>
+        </div>
+        <div class="music-playlist">
+          <div class="song-container">
+            <div class="press-play"></div>
+            <div class="title"><p>title</p></div>
+            <div class="artist"><p>artist</p></div>
+            <div class="album"><p>album</p></div>
+            <div class="length"><p>length</p></div>
+          </div>
+        </div>
+      </div>
+      <!--Wrapper Text Here-->
+
+      <div class="wrapper-text">
         <h1>nos·tal·gia</h1>
         <p2><i>noun</i></p2>
         <p>
