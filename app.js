@@ -1,8 +1,8 @@
 'use strict';
 
 const APIController = (function () {
-	const clientId = '';
-	const clientSecret = '';
+	const clientId = '2f538283353d4831b7788946a25b35e0';
+	const clientSecret = 'da48bc5c9aab4160b5f5414c6a1e558d';
 
 	// private methods
 	const _getToken = async () => {
@@ -102,12 +102,12 @@ const APIController = (function () {
 const UIController = (function () {
 	// HTML selectors
 	const DOMElements = {
-		selectGenre: '',
-		selectPlaylists: '',
-		buttonSubmit: '',
-		divSongDetail: '',
-		hfToken: '',
-		divSongList: '',
+		selectGenre: '#select_genre',
+		selectPlaylists: '#select_playlist',
+		buttonSubmit: '#btn_submit',
+		divSongDetail: '#song-detail',
+		hfToken: '#hidden_token',
+		divSongList: '.song-list',
 	};
 
 	// Public Methods
