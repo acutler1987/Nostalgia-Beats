@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
   <style></style>
-  <script src="script.js"></script>
   <body>
     <header>
       <div class="header-text">
@@ -66,11 +65,12 @@
         <p>- Oxford Languages</p>
       </div>
     </div>
+    <footer>
+      <p>Last updated <span id="demo"></span></p>
+      <script>
+        document.getElementById('demo').innerHTML = document.lastModified;
+      </script>
+      <script src="app.js"></script>
+    </footer>
   </body>
-  <footer>
-    <p>Last updated <span id="demo"></span></p>
-    <script>
-      document.getElementById('demo').innerHTML = document.lastModified;
-    </script>
-  </footer>
 </html>
