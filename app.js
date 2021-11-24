@@ -76,23 +76,23 @@ const APIController = (function () {
 	};
 
 	return {
-		_getToken() {
+		getToken() {
 			return _getToken();
 		},
 
-		_getGenres(token) {
+		getGenres(token) {
 			return _getGenres(token);
 		},
 
-		_getPlaylistByGenre(token, genreID) {
+		getPlaylistByGenre(token, genreID) {
 			return _getPlaylistByGenre(token, genreID);
 		},
 
-		_getTracks(token, tracksEndPoint) {
+		getTracks(token, tracksEndPoint) {
 			return _getTracks(token, tracksEndPoint);
 		},
 
-		_getTrack(token, trackEndPoint) {
+		getTrack(token, trackEndPoint) {
 			return _getToken(token, trackEndPoint);
 		},
 	};
@@ -101,5 +101,26 @@ const APIController = (function () {
 // UI Module
 const UIController = function () {
 	// HTML selectors
-	const DOMElements = {};
+	const DOMElements = {
+		selectGenre: '',
+		selectPlaylists: '',
+		buttonSubmit: '',
+		divSongDetail: '',
+		hfToken: '',
+		divSongList: '',
+	};
+
+	// Public Methods
+	return {
+		// method to get input fields
+		inputField() {
+			return {
+				genre: document.querySelector(DOMElements.selectGenre),
+				playlist: document.querySelector(DOMElements.selectPlaylists),
+				submit: document.querySelector(DOMElements.buttonSubmit),
+				tracks: document.querySelector(DOMElements.divSongList),
+				songDetail: document.querySelector(DOMElements.divSongDetail),
+			};
+		},
+	};
 };
