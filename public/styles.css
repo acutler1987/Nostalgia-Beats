@@ -111,3 +111,12 @@ footer {
   min-height: 10rem;
   margin: -30px 30px 30px 30px;
 }
+
+#login, #loggedin {
+  display: none;
+}
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 500px;
