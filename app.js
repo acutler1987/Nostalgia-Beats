@@ -16,7 +16,7 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
 var client_id = '2f538283353d4831b7788946a25b35e0'; // Your client id
-var client_secret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxx'; // <-- REMOVE SECRET BEFORE PUSHING TO GITHUB
+var client_secret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // <-- REMOVE SECRET BEFORE PUSHING TO REPO
 var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
 /**
@@ -58,6 +58,7 @@ app.get('/login', function (req, res) {
 				scope: scope,
 				redirect_uri: redirect_uri,
 				state: state,
+				show_dialog: false,
 			})
 	);
 });
@@ -161,17 +162,20 @@ app.get('/refresh_token', function (req, res) {
 	});
 });
 
-const access_token = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // <-- ERASE BEFORE PUSHING TO REPO
-
+/////// Still trying to make this work...
 request(
 	{
 		url: 'https://api.spotify.com/v1/me/playlists',
-		headers: { Authorization: 'Bearer ' + access_token },
+		headers: {
+			Authorization: 'Bearer ' + access_token,
+		},
 	},
 	function (err, res) {
 		if (res) {
 			var playlists = JSON.parse(res.body);
 			console.log(playlists);
+		} else {
+			console.log(err);
 		}
 	}
 );
