@@ -16,7 +16,7 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
 var client_id = '2f538283353d4831b7788946a25b35e0'; // Your client id
-var client_secret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // <-- REMOVE SECRET BEFORE PUSHING TO REPO
+var client_secret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // <-- REMOVE SECRET BEFORE PUSHING TO REPO
 var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
 /**
@@ -135,7 +135,7 @@ app.get('/callback', function (req, res) {
 });
 
 // THIRD CALL
-app.get('/refresh_token', function (req, res) {
+const getAccessToken = app.get('/refresh_token', function (req, res) {
 	// requesting access token from refresh token
 	var refresh_token = req.query.refresh_token;
 	var authOptions = {
@@ -162,12 +162,14 @@ app.get('/refresh_token', function (req, res) {
 	});
 });
 
+const token = getAccessToken.access_token;
+
 /////// Still trying to make this work...
 request(
 	{
 		url: 'https://api.spotify.com/v1/me/playlists',
 		headers: {
-			Authorization: 'Bearer ' + access_token,
+			Authorization: 'Bearer ' + token,
 		},
 	},
 	function (err, res) {

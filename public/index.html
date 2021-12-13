@@ -4,7 +4,7 @@
 	<title>Nostalgia Beats</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<link rel="stylesheet" href="styles.css" />
-	<style></style>
+	<!--<script defer src="app.js"></script>-->
 	<body>
 		<header>
 			<div class="header-text">
@@ -149,12 +149,19 @@
 						});
 
 						$.ajax({
-							url: 'https://api.spotify.com/v1/me/playlists',
+							url: 'https://api.spotify.com/v1/playlists/6s0eMyEF05xmQLZZT0Y1c9',
 							headers: {
 								Authorization: 'Bearer ' + access_token,
 							},
 							success: function (response) {
-								console.log(response);
+								var playlist = response;
+								console.log(typeof playlist);
+								console.log(playlist);
+
+								console.log('playlist: ' + playlist.name);
+								playlist.tracks.items.forEach(function (track) {
+									console.log(track.track.name);
+								});
 
 								$('#login').hide();
 								$('#loggedin').show();
@@ -226,10 +233,6 @@
 				document.getElementById('demo').innerHTML =
 					document.lastModified;
 			</script>
-			<script
-				data-main="app.js"
-				src="node_modules/requirejs/require.js"
-			></script>
 		</footer>
 	</body>
 </html>
