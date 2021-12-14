@@ -164,7 +164,11 @@ const getAccessToken = app.get('/refresh_token', function (req, res) {
 
 const token = getAccessToken.access_token;
 
+console.log('Listening on 8888');
+app.listen(8888);
+
 /////// Still trying to make this work...
+/*
 request(
 	{
 		url: 'https://api.spotify.com/v1/me/playlists',
@@ -181,6 +185,4 @@ request(
 		}
 	}
 );
-
-console.log('Listening on 8888');
-app.listen(8888);
+*/

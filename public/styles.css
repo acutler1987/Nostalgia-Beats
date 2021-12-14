@@ -112,7 +112,7 @@ footer {
   margin: -30px 30px 30px 30px;
 }
 
-#login, #loggedin {
+.login, .loggedin {
   display: none;
 }
 .text-overflow {

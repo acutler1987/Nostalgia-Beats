@@ -14,11 +14,16 @@
 		</header>
 		<nav>
 			<div class="nav-text">
-				<div>
+				<div class="login">
+					<a href="/login" class="btn btn-primary"
+						>Please log in with Spotify</a
+					>
+				</div>
+
+				<div class="loggedin">
 					<label for="age">How old are you?</label>
 					<input type="text" id="age" name="age" /><br /><br />
-				</div>
-				<div>
+
 					<label for="cars">I want to hear music from...</label>
 					<select id="era" name="era">
 						<option value="college_years">my college years.</option>
@@ -31,11 +36,7 @@
 			</div>
 		</nav>
 		<div class="container">
-			<div id="login">
-				<h1>This is an example of the Authorization Code flow</h1>
-				<a href="/login" class="btn btn-primary">Log in with Spotify</a>
-			</div>
-			<div id="loggedin">
+			<div class="loggedin">
 				<div id="user-profile"></div>
 				<div id="oauth"></div>
 				<button class="btn btn-default" id="obtain-new-token">
@@ -43,7 +44,39 @@
 				</button>
 			</div>
 		</div>
-
+		<div class="wrapper">
+			<div class="loggedin">
+				<div class="music-container">
+					<div class="music-menu">
+						<ul class="menu-ul">
+							<li class="menu-li"><a href="#">Songs</a></li>
+							<li class="menu-li"><a href="#">Artists</a></li>
+							<li class="menu-li"><a href="#">Year</a></li>
+						</ul>
+					</div>
+					<ul class="music-playlist">
+						<li class="song-container">
+							<div class="press-play"></div>
+							<div class="title"><p>interstate love song</p></div>
+							<div class="artist"><p>stone temple pilots</p></div>
+							<div class="year"><p>1994</p></div>
+							<div class="length"><p>3:14</p></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="wrapper-text">
+				<h1>nos·tal·gia</h1>
+				<p2><i>noun</i></p2>
+				<p>
+					'A sentimental longing or wistful affection for the past,
+					typically for a period or place with happy personal
+					associations.'
+				</p>
+				<p>- Oxford Languages</p>
+			</div>
+		</div>
+		<!--------------------- Local Scripts Begin Here ----------------------->
 		<script id="user-profile-template" type="text/x-handlebars-template">
 			<h1>Logged in as {{display_name}}</h1>
 			<div class='media'>
@@ -143,8 +176,8 @@
 								userProfilePlaceholder.innerHTML =
 									userProfileTemplate(response);
 
-								$('#login').hide();
-								$('#loggedin').show();
+								$('.login').hide();
+								$('.loggedin').show();
 							},
 						});
 
@@ -155,7 +188,6 @@
 							},
 							success: function (response) {
 								var playlist = response;
-								console.log(typeof playlist);
 								console.log(playlist);
 
 								console.log('playlist: ' + playlist.name);
@@ -163,14 +195,14 @@
 									console.log(track.track.name);
 								});
 
-								$('#login').hide();
-								$('#loggedin').show();
+								$('.login').hide();
+								$('.loggedin').show();
 							},
 						});
 					} else {
 						// render initial screen
-						$('#login').show();
-						$('#loggedin').hide();
+						$('.login').show();
+						$('.loggedin').hide();
 					}
 
 					document
@@ -196,36 +228,6 @@
 				}
 			})();
 		</script>
-		<div class="wrapper">
-			<div class="music-container">
-				<div class="music-menu">
-					<ul class="menu-ul">
-						<li class="menu-li"><a href="#">Songs</a></li>
-						<li class="menu-li"><a href="#">Artists</a></li>
-						<li class="menu-li"><a href="#">Year</a></li>
-					</ul>
-				</div>
-				<ul class="music-playlist">
-					<li class="song-container">
-						<div class="press-play"></div>
-						<div class="title"><p>interstate love song</p></div>
-						<div class="artist"><p>stone temple pilots</p></div>
-						<div class="year"><p>1994</p></div>
-						<div class="length"><p>3:14</p></div>
-					</li>
-				</ul>
-			</div>
-			<div class="wrapper-text">
-				<h1>nos·tal·gia</h1>
-				<p2><i>noun</i></p2>
-				<p>
-					'A sentimental longing or wistful affection for the past,
-					typically for a period or place with happy personal
-					associations.'
-				</p>
-				<p>- Oxford Languages</p>
-			</div>
-		</div>
 
 		<footer>
 			<p>Last updated <span id="demo"></span></p>
