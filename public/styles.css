@@ -64,7 +64,7 @@ ul li {
   list-style-type: none;
 }
 
-.music-playlist {
+#music-playlist {
   background-color: #ababab;
   border: 5px solid #724559;
   border-radius: 25px;
