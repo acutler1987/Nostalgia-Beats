@@ -42,7 +42,6 @@
 					Authorization: 'Bearer ' + access_token,
 				},
 				success: function (response) {
-					console.log(response);
 					const playerName = response.display_name;
 					console.log(playerName);
 					$('.login').hide();

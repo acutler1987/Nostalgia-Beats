@@ -9,15 +9,13 @@
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
  */
 
-var express = require('express'); // Express web server framework
-var request = require('request'); // "Request" library
-var cors = require('cors');
-var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
+const express = require('express'); // Express web server framework
+const request = require('request'); // "Request" library
+const cors = require('cors');
+const querystring = require('querystring');
+const cookieParser = require('cookie-parser');
 
-var client_id = '2f538283353d4831b7788946a25b35e0'; // Your client id
-var client_secret = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // <-- REMOVE SECRET BEFORE PUSHING TO REPO*************************************
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+const config = require('./config.js');
 
 /**
  * Generates a random string containing numbers and letters
@@ -54,9 +52,9 @@ app.get('/login', function (req, res) {
 		'https://accounts.spotify.com/authorize?' +
 			querystring.stringify({
 				response_type: 'code',
-				client_id: client_id,
+				client_id: config.client_id,
 				scope: scope,
-				redirect_uri: redirect_uri,
+				redirect_uri: config.redirect_uri,
 				state: state,
 				show_dialog: false,
 			})
@@ -85,15 +83,15 @@ app.get('/callback', function (req, res) {
 			url: 'https://accounts.spotify.com/api/token',
 			form: {
 				code: code,
-				redirect_uri: redirect_uri,
+				redirect_uri: config.redirect_uri,
 				grant_type: 'authorization_code',
 			},
 			headers: {
 				Authorization:
 					'Basic ' +
-					new Buffer(client_id + ':' + client_secret).toString(
-						'base64'
-					),
+					new Buffer(
+						config.client_id + ':' + config.client_secret
+					).toString('base64'),
 			},
 			json: true,
 		};
@@ -143,7 +141,9 @@ const getAccessToken = app.get('/refresh_token', function (req, res) {
 		headers: {
 			Authorization:
 				'Basic ' +
-				new Buffer(client_id + ':' + client_secret).toString('base64'),
+				new Buffer(
+					config.client_id + ':' + config.client_secret
+				).toString('base64'),
 		},
 		form: {
 			grant_type: 'refresh_token',
