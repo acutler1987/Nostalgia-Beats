@@ -6,8 +6,8 @@
 	 * @return Object
 	 */
 	function getHashParams() {
-		var hashParams = {};
-		var e,
+		let hashParams = {};
+		let e,
 			r = /([^&;=]+)=?([^&;]*)/g,
 			q = window.location.hash.substring(1);
 		while ((e = r.exec(q))) {
@@ -127,3 +127,4 @@ const calcAge = function () {
 		'age-results'
 	).innerHTML = `You attended highschool / college from ${highSchoolStart} to ${collegeEnd}`;
 };
+console.log('hello from public.js!');
