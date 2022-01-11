@@ -26,6 +26,7 @@ const APIModule = (function () {
 		alert('There was an error during the authentication');
 	} else {
 		if (access_token) {
+			////////////////////////// find a way to stick these in a function triggered by the browser
 			$.ajax({
 				url: 'https://api.spotify.com/v1/me',
 				headers: {
@@ -38,7 +39,6 @@ const APIModule = (function () {
 					$('.loggedin').show();
 				},
 			});
-
 			$.ajax({
 				url: 'https://api.spotify.com/v1/playlists/6s0eMyEF05xmQLZZT0Y1c9',
 				headers: {
