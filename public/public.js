@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+const APIModule = (function () {
 	/**
 	 * Obtains parameters from the hash of the URL
 	 * @return Object
@@ -15,16 +15,6 @@
 		}
 		return hashParams;
 	}
-
-	var userProfileSource = document.getElementById(
-			'user-profile-template'
-		).innerHTML,
-		userProfileTemplate = Handlebars.compile(userProfileSource),
-		userProfilePlaceholder = document.getElementById('user-profile');
-
-	var oauthSource = document.getElementById('oauth-template').innerHTML,
-		oauthTemplate = Handlebars.compile(oauthSource),
-		oauthPlaceholder = document.getElementById('oauth');
 
 	var params = getHashParams();
 
@@ -118,6 +108,14 @@
 
 ///////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////// UI MODULE //////////////////////////////////
+
+// const UIModule = (function () {})();
+
+///////////////////////////////// APP MODULE ////////////////////////////////////
+
+// const APPModule = (function (UIMod, APIMod) {})(UIMod, APIMod);
+
 const calcAge = function () {
 	const curYear = new Date().getFullYear();
 	const ageInput = document.getElementById('age').value;
@@ -126,5 +124,9 @@ const calcAge = function () {
 	document.getElementById(
 		'age-results'
 	).innerHTML = `You attended highschool / college from ${highSchoolStart} to ${collegeEnd}`;
+	return {
+		highSchoolStart,
+		collegeEnd,
+	};
 };
 console.log('hello from public.js!');

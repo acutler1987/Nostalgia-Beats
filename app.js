@@ -34,7 +34,7 @@ app.use(express.static(__dirname + '/public'))
 
 ///////////////////////////////////////// API MODULE //////////////////////////////////////////////////
 
-const APIModule = (function () {
+const loginModule = (function () {
 	// FIRST CALL
 	app.get('/login', function (req, res) {
 		var state = generateRandomString(16);
@@ -156,14 +156,6 @@ const APIModule = (function () {
 		});
 	});
 })();
-
-///////////////////////////////// UI MODULE //////////////////////////////////
-
-// const UIModule = (function () {})();
-
-///////////////////////////////// APP MODULE ////////////////////////////////////
-
-// const APPModule = (function (UIMod, APIMod) {})(UIMod, APIMod);
 
 console.log('Listening on 8888');
 app.listen(8888);
