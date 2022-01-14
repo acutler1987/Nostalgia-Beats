@@ -1,5 +1,9 @@
 'use strict';
 
+let showPlaylist = {};
+let access_token = {};
+let clearPlaylist = {};
+
 const APIModule = (function () {
 	/**
 	 * Obtains parameters from the hash of the URL
@@ -18,15 +22,15 @@ const APIModule = (function () {
 
 	var params = getHashParams();
 
-	var access_token = params.access_token,
-		refresh_token = params.refresh_token,
+	access_token = params.access_token;
+
+	var refresh_token = params.refresh_token,
 		error = params.error;
 
 	if (error) {
 		alert('There was an error during the authentication');
 	} else {
 		if (access_token) {
-			////////////////////////// find a way to stick these in a function triggered by the browser
 			$.ajax({
 				url: 'https://api.spotify.com/v1/me',
 				headers: {
@@ -35,46 +39,6 @@ const APIModule = (function () {
 				success: function (response) {
 					const playerName = response.display_name;
 					console.log(playerName);
-					$('.login').hide();
-					$('.loggedin').show();
-				},
-			});
-			$.ajax({
-				url: 'https://api.spotify.com/v1/playlists/6s0eMyEF05xmQLZZT0Y1c9',
-				headers: {
-					Authorization: 'Bearer ' + access_token,
-				},
-				success: function (response) {
-					const playlist = response;
-					console.log(playlist);
-
-					console.log('playlist: ' + playlist.name);
-					playlist.tracks.items.forEach(function (track, i) {
-						const title = playlist.tracks.items[i].track.name;
-						const artist =
-							playlist.tracks.items[i].track.artists[0].name;
-						const year =
-							playlist.tracks.items[i].track.album.release_date;
-						const length =
-							Math.trunc(
-								playlist.tracks.items[i].track.duration_ms
-							) / 1000;
-
-						const html = `
-                    <li class="song-container">
-                        <div class="press-play"></div>
-                        <div class="title"><p>${title}</p></div>
-                        <div class="artist"><p>${artist}</p></div>
-                        <div class="year"><p>${year}</p></div>
-                        <div class="length"><p>${length}</p></div>
-                    </li>`;
-
-						document
-							.getElementById('music-playlist')
-							.insertAdjacentHTML('afterbegin', html);
-						console.log(track.track.name);
-					});
-
 					$('.login').hide();
 					$('.loggedin').show();
 				},
@@ -103,14 +67,62 @@ const APIModule = (function () {
 			},
 			false
 		);
+		return access_token;
 	}
 })();
 
+console.log(access_token);
 ///////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////// UI MODULE //////////////////////////////////
 
-// const UIModule = (function () {})();
+const UIModule = (function () {
+	showPlaylist = function () {
+		$.ajax({
+			url: 'https://api.spotify.com/v1/playlists/6s0eMyEF05xmQLZZT0Y1c9',
+			headers: {
+				Authorization: 'Bearer ' + access_token,
+			},
+			success: function (response) {
+				const playlist = response;
+				console.log(playlist);
+
+				console.log('playlist: ' + playlist.name);
+				playlist.tracks.items.forEach(function (track, i) {
+					const title = playlist.tracks.items[i].track.name;
+					const artist =
+						playlist.tracks.items[i].track.artists[0].name;
+					const year =
+						playlist.tracks.items[i].track.album.release_date;
+					const length =
+						Math.trunc(playlist.tracks.items[i].track.duration_ms) /
+						1000;
+
+					const html = `
+			<li class="song-container">
+			<div class="press-play"></div>
+			<div class="title"><p>${title}</p></div>
+			<div class="artist"><p>${artist}</p></div>
+			<div class="year"><p>${year}</p></div>
+			<div class="length"><p>${length}</p></div>
+			</li>`;
+
+					document
+						.getElementById('music-playlist')
+						.insertAdjacentHTML('afterbegin', html);
+					console.log(track.track.name);
+				});
+
+				$('.login').hide();
+				$('.loggedin').show();
+			},
+		});
+	};
+
+	clearPlaylist = function () {
+		document.getElementById('music-playlist').innerHTML = '';
+	};
+})();
 
 ///////////////////////////////// APP MODULE ////////////////////////////////////
 
