@@ -100,11 +100,16 @@ const UIModule = (function () {
 
 					const html = `
 			<li class="song-container">
-			<div class="press-play"></div>
-			<div class="title"><p>${title}</p></div>
-			<div class="artist"><p>${artist}</p></div>
-			<div class="year"><p>${year}</p></div>
-			<div class="length"><p>${length}</p></div>
+				<div class="track-image"></div>
+				<div class="track-description">
+					<div class="title"><p>${title}</p></div>
+					<div class="artist"><p>${artist}</p></div>
+					<div class="year"><p>${year}</p></div>
+				</div>
+				<div class="length-preview">
+					<div class="length"><p>${length}</p></div>
+					<div class="preview"></div>
+				</div>
 			</li>`;
 
 					document

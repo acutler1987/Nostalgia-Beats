@@ -159,4 +159,3 @@ const loginModule = (function () {
 
 console.log('Listening on 8888');
 app.listen(8888);
-console.log('hello from app.js!');
