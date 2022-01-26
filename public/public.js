@@ -89,26 +89,33 @@ const UIModule = (function () {
 
 				console.log('playlist: ' + playlist.name);
 				playlist.tracks.items.forEach(function (track, i) {
+					const trackImage =
+						playlist.tracks.items[i].track.album.images[2].url;
 					const title = playlist.tracks.items[i].track.name;
 					const artist =
 						playlist.tracks.items[i].track.artists[0].name;
 					const year =
 						playlist.tracks.items[i].track.album.release_date;
+					const trackLink =
+						playlist.tracks.items[i].track.external_urls.spotify;
 					const length =
 						Math.trunc(playlist.tracks.items[i].track.duration_ms) /
 						1000;
+					const trackPreview =
+						playlist.tracks.items[i].track.preview_url;
 
 					const html = `
 			<li class="song-container">
-				<div class="track-image"></div>
+				<div class="track-image" style="background-image: url(${trackImage})"></div>
 				<div class="track-description">
 					<div class="title"><p>${title}</p></div>
 					<div class="artist"><p>${artist}</p></div>
 					<div class="year"><p>${year}</p></div>
 				</div>
-				<div class="length-preview">
+				<div class="length-preview-container">
 					<div class="length"><p>${length}</p></div>
-					<div class="preview"></div>
+					<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
+					<div class="preview"><a href=${trackPreview}><p>Preview</p></a></div>
 				</div>
 			</li>`;
 

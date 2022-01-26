@@ -89,38 +89,54 @@ ul li {
 }
 
 .track-image {
+	background-size: cover;
+	background-repeat: no-repeat;
 	height: 80px;
 	width: 80px;
+	flex-grow: 0;
 }
 
 .track-description {
 	display: flex;
 	flex-direction: column;
+	flex-grow: 1;
 }
 
 .title {
 	height: 40px;
+	font-size: 1.5em;
+	display: flex;
+	align-items: center;
 }
 
 .artist {
 	height: 20px;
+	display: flex;
+	align-items: center;
 }
 
 .year {
 	height: 20px;
+	display: flex;
+	align-items: center;
 }
 
-.length-preview {
+.length-preview-container {
 	display: flex;
 	flex-direction: column;
+	flex-grow: 0;
 }
 
 .length {
-	height: 40px;
+	height: 23px;
+}
+
+.go-to-spotify {
+	height: 23px;
 }
 
 .preview {
-	height: 40px;
+	height: 23px;
 }
 
 footer {
