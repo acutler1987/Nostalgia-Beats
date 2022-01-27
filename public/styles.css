@@ -49,8 +49,8 @@ nav {
 }
 
 .menu-ul {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	display: flex;
+	flex-direction: row;
 	margin: 10px;
 	padding: initial;
 }
@@ -58,6 +58,7 @@ nav {
 .menu-li {
 	background-color: #d09c8e;
 	border: 5px solid #f8efb6;
+	flex-grow: 1;
 	text-align: center;
 }
 

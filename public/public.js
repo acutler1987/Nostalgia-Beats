@@ -88,6 +88,7 @@ const UIModule = (function () {
 				console.log(playlist);
 
 				console.log('playlist: ' + playlist.name);
+
 				playlist.tracks.items.forEach(function (track, i) {
 					const trackImage =
 						playlist.tracks.items[i].track.album.images[2].url;
@@ -105,28 +106,37 @@ const UIModule = (function () {
 						playlist.tracks.items[i].track.preview_url;
 
 					const html = `
-			<li class="song-container">
-				<div class="track-image" style="background-image: url(${trackImage})"></div>
-				<div class="track-description">
-					<div class="title"><p>${title}</p></div>
-					<div class="artist"><p>${artist}</p></div>
-					<div class="year"><p>${year}</p></div>
-				</div>
-				<div class="preview">
-					<video class="preview-player" controls name="media">
-						<source src=${trackPreview} type="audio/mpeg">
-					</video>
-				</div>
-				<div class="length-link">
-					<div class="length"><p>${length}</p></div>
-					<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
-				</div>
-			</li>
-			`;
+						<li class="song-container">
+						<div class="track-image" style="background-image: url(${trackImage})"></div>
+						<div class="track-description">
+						<div class="title"><p>${title}</p></div>
+						<div class="artist"><p>${artist}</p></div>
+						<div class="year"><p>${year}</p></div>
+						</div>
+						<div class="preview"></div>
+						<div class="length-link">
+						<div class="length"><p>${length}</p></div>
+						<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
+						</div>
+						</li>
+						`;
 
 					document
 						.getElementById('music-playlist')
 						.insertAdjacentHTML('afterbegin', html);
+
+					/***************************** THIS PART IS BROKEN
+					const previewHtml = `
+						<video class="preview-player" controls name="media">
+						<source src=${trackPreview} type="audio/mpeg">
+						</video>
+						`;
+
+					if (trackPreview)
+						document
+							.getElementsByClassName('preview')
+							.insertAdjacentHTML('afterbegin', previewHtml);
+					 */
 					console.log(track.track.name);
 				});
 
