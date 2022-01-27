@@ -112,12 +112,17 @@ const UIModule = (function () {
 					<div class="artist"><p>${artist}</p></div>
 					<div class="year"><p>${year}</p></div>
 				</div>
-				<div class="length-preview-container">
+				<div class="preview">
+					<video class="preview-player" controls name="media">
+						<source src=${trackPreview} type="audio/mpeg">
+					</video>
+				</div>
+				<div class="length-link">
 					<div class="length"><p>${length}</p></div>
 					<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
-					<div class="preview"><a href=${trackPreview}><p>Preview</p></a></div>
 				</div>
-			</li>`;
+			</li>
+			`;
 
 					document
 						.getElementById('music-playlist')

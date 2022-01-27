@@ -51,6 +51,7 @@ nav {
 .menu-ul {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
+	margin: 10px;
 	padding: initial;
 }
 
@@ -74,7 +75,7 @@ ul li {
 	overflow-y: scroll;
 	padding: 0px 0px 0px 0px;
 }
-
+/******************************* each of these contains an individual song preview **********************************/
 .song-container {
 	border: 2px solid #000;
 	border-radius: 25px;
@@ -88,6 +89,7 @@ ul li {
 	background-color: #fff;
 }
 
+/******************************* this is the image div **********************************/
 .track-image {
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -96,6 +98,7 @@ ul li {
 	flex-grow: 0;
 }
 
+/******************************* start of the description div **********************************/
 .track-description {
 	display: flex;
 	flex-direction: column;
@@ -121,10 +124,25 @@ ul li {
 	align-items: center;
 }
 
-.length-preview-container {
+/******************************* start of preview div **********************************/
+.preview {
+	display: flex;
+	justify-content: center;
+	height: 80px;
+	flex-grow: 1;
+}
+
+.preview-player {
+	width: 212px;
+}
+
+/******************************* start of length and link div **********************************/
+.length-link {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 0;
+	height: 80px;
+	width: 80px;
 }
 
 .length {
@@ -134,10 +152,7 @@ ul li {
 .go-to-spotify {
 	height: 23px;
 }
-
-.preview {
-	height: 23px;
-}
+/******************************* end of song previews / music container  **********************************/
 
 footer {
 	background-color: #724559;
