@@ -1,7 +1,8 @@
 'use strict';
 
-let showPlaylist = {};
 let access_token = {};
+let getPlaylist = {};
+let showPlaylist = {};
 let clearPlaylist = {};
 
 const APIModule = (function () {
@@ -38,7 +39,7 @@ const APIModule = (function () {
 				},
 				success: function (response) {
 					const playerName = response.display_name;
-					console.log(playerName);
+					// console.log(playerName);
 					$('.login').hide();
 					$('.loggedin').show();
 				},
@@ -48,7 +49,7 @@ const APIModule = (function () {
 			$('.login').show();
 			$('.loggedin').hide();
 		}
-
+		////////////////////// Obtain New Token is broken //////////////////////////////
 		document.getElementById('obtain-new-token').addEventListener(
 			'click',
 			function () {
@@ -77,7 +78,7 @@ console.log(access_token);
 ///////////////////////////////// UI MODULE //////////////////////////////////
 
 const UIModule = (function () {
-	showPlaylist = function () {
+	getPlaylist = function () {
 		$.ajax({
 			url: 'https://api.spotify.com/v1/playlists/6s0eMyEF05xmQLZZT0Y1c9',
 			headers: {
@@ -85,71 +86,79 @@ const UIModule = (function () {
 			},
 			success: function (response) {
 				const playlist = response;
+				showPlaylist(playlist);
+				// showPreview(playlist);
 				console.log(playlist);
-
-				console.log('playlist: ' + playlist.name);
-
-				playlist.tracks.items.forEach(function (track, i) {
-					const trackImage =
-						playlist.tracks.items[i].track.album.images[2].url;
-					const title = playlist.tracks.items[i].track.name;
-					const artist =
-						playlist.tracks.items[i].track.artists[0].name;
-					const year =
-						playlist.tracks.items[i].track.album.release_date;
-					const trackLink =
-						playlist.tracks.items[i].track.external_urls.spotify;
-					const length =
-						Math.trunc(playlist.tracks.items[i].track.duration_ms) /
-						1000;
-					const trackPreview =
-						playlist.tracks.items[i].track.preview_url;
-
-					const html = `
-						<li class="song-container">
-						<div class="track-image" style="background-image: url(${trackImage})"></div>
-						<div class="track-description">
-						<div class="title"><p>${title}</p></div>
-						<div class="artist"><p>${artist}</p></div>
-						<div class="year"><p>${year}</p></div>
-						</div>
-						<div class="preview"></div>
-						<div class="length-link">
-						<div class="length"><p>${length}</p></div>
-						<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
-						</div>
-						</li>
-						`;
-
-					document
-						.getElementById('music-playlist')
-						.insertAdjacentHTML('afterbegin', html);
-
-					/***************************** THIS PART IS BROKEN
-					const previewHtml = `
-						<video class="preview-player" controls name="media">
-						<source src=${trackPreview} type="audio/mpeg">
-						</video>
-						`;
-
-					if (trackPreview)
-						document
-							.getElementsByClassName('preview')
-							.insertAdjacentHTML('afterbegin', previewHtml);
-					 */
-					console.log(track.track.name);
-				});
-
-				$('.login').hide();
-				$('.loggedin').show();
 			},
 		});
 	};
+
+	const playlistPromise = new Promise(function showPlaylist(playlist) {
+		playlist.tracks.items.forEach(function (track, i) {
+			const trackImage =
+				playlist.tracks.items[i].track.album.images[2].url;
+			const title = playlist.tracks.items[i].track.name;
+			const artist = playlist.tracks.items[i].track.artists[0].name;
+			const year = playlist.tracks.items[i].track.album.release_date;
+			const trackLink =
+				playlist.tracks.items[i].track.external_urls.spotify;
+			const length =
+				Math.trunc(playlist.tracks.items[i].track.duration_ms) / 1000;
+
+			const html = `
+			<li class="song-container">
+				<div class="track-image" style="background-image: url(${trackImage})">
+				</div>
+				<div class="track-description">
+					<div class="title"><p>${title}</p></div>
+					<div class="artist"><p>${artist}</p></div>
+					<div class="year"><p>${year}</p></div>
+				</div>
+				<div class="preview"></div>
+				<div class="length-link"><div class="length"><p>${length}</p></div>
+				<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
+				</div>
+			</li>
+		`;
+
+			document
+				.getElementById('music-playlist')
+				.insertAdjacentHTML('afterbegin', html);
+
+			$('.login').hide();
+			$('.loggedin').show();
+		});
+	});
+
+	playlistPromise.then(function showPreview(playlist) {
+		console.log('second function executed');
+	});
+
+	// function showPreview(playlist) {
+	// 	playlist.tracks.items.forEach(function (track, i) {
+	// 		const trackPreview = playlist.tracks.items[i].track.preview_url;
+
+	// 		const previewHtml = `
+	// 		<video class="preview-player" controls name="media">
+	// 		<source src=${trackPreview} type="audio/mpeg">
+	// 		</video>
+	// 		`;
+
+	// 		if (trackPreview)
+	// 			document
+	// 				.getElementsByClassName('preview')
+	// 				.insertAdjacentHTML('afterbegin', previewHtml);
+	// 	});
+	// }
 
 	clearPlaylist = function () {
 		document.getElementById('music-playlist').innerHTML = '';
 	};
 })();
+
+/***************************** THIS PART IS BROKEN
+				
+				 */
 
 ///////////////////////////////// APP MODULE ////////////////////////////////////
 
