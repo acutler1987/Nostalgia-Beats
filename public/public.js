@@ -2,7 +2,7 @@
 
 let access_token = {};
 let getPlaylist = {};
-let showPlaylist = {};
+// let showPlaylist = {};
 let clearPlaylist = {};
 
 const APIModule = (function () {
@@ -86,70 +86,79 @@ const UIModule = (function () {
 			},
 			success: function (response) {
 				const playlist = response;
-				showPlaylist(playlist);
+				// showPlaylist(playlist);
 				// showPreview(playlist);
 				console.log(playlist);
+				console.log(getPlaylist);
+
+				// const playlistPromise = new Promise(function showPlaylist(playlist) {
+				// });
+
+				playlist.tracks.items.forEach(function (track, i) {
+					const trackImage =
+						playlist.tracks.items[i].track.album.images[2].url;
+					const title = playlist.tracks.items[i].track.name;
+					const artist =
+						playlist.tracks.items[i].track.artists[0].name;
+					const year =
+						playlist.tracks.items[i].track.album.release_date;
+					const trackLink =
+						playlist.tracks.items[i].track.external_urls.spotify;
+					const length =
+						Math.trunc(playlist.tracks.items[i].track.duration_ms) /
+						1000;
+
+					const html = `
+						<li class="song-container">
+						<div class="track-image" style="background-image: url(${trackImage})">
+						</div>
+						<div class="track-description">
+						<div class="title"><p>${title}</p></div>
+						<div class="artist"><p>${artist}</p></div>
+						<div class="year"><p>${year}</p></div>
+						</div>
+						<div class="preview"></div>
+						<div class="length-link"><div class="length"><p>${length}</p></div>
+						<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
+						</div>
+						</li>
+						`;
+
+					document
+						.getElementById('music-playlist')
+						.insertAdjacentHTML('afterbegin', html);
+
+					function showPreview(playlist) {
+						playlist.tracks.items.forEach(function (track, i) {
+							const trackPreview =
+								playlist.tracks.items[i].track.preview_url;
+
+							const previewHtml = `
+							<video class="preview-player" controls name="media">
+							<source src=${trackPreview} type="audio/mpeg">
+							</video>
+							`;
+
+							if (trackPreview)
+								document
+									.getElementsByClassName('preview')
+									.insertAdjacentHTML(
+										'afterbegin',
+										previewHtml
+									);
+						});
+					}
+
+					$('.login').hide();
+					$('.loggedin').show();
+				});
 			},
 		});
 	};
 
-	const playlistPromise = new Promise(function showPlaylist(playlist) {
-		playlist.tracks.items.forEach(function (track, i) {
-			const trackImage =
-				playlist.tracks.items[i].track.album.images[2].url;
-			const title = playlist.tracks.items[i].track.name;
-			const artist = playlist.tracks.items[i].track.artists[0].name;
-			const year = playlist.tracks.items[i].track.album.release_date;
-			const trackLink =
-				playlist.tracks.items[i].track.external_urls.spotify;
-			const length =
-				Math.trunc(playlist.tracks.items[i].track.duration_ms) / 1000;
-
-			const html = `
-			<li class="song-container">
-				<div class="track-image" style="background-image: url(${trackImage})">
-				</div>
-				<div class="track-description">
-					<div class="title"><p>${title}</p></div>
-					<div class="artist"><p>${artist}</p></div>
-					<div class="year"><p>${year}</p></div>
-				</div>
-				<div class="preview"></div>
-				<div class="length-link"><div class="length"><p>${length}</p></div>
-				<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
-				</div>
-			</li>
-		`;
-
-			document
-				.getElementById('music-playlist')
-				.insertAdjacentHTML('afterbegin', html);
-
-			$('.login').hide();
-			$('.loggedin').show();
-		});
-	});
-
-	playlistPromise.then(function showPreview(playlist) {
-		console.log('second function executed');
-	});
-
-	// function showPreview(playlist) {
-	// 	playlist.tracks.items.forEach(function (track, i) {
-	// 		const trackPreview = playlist.tracks.items[i].track.preview_url;
-
-	// 		const previewHtml = `
-	// 		<video class="preview-player" controls name="media">
-	// 		<source src=${trackPreview} type="audio/mpeg">
-	// 		</video>
-	// 		`;
-
-	// 		if (trackPreview)
-	// 			document
-	// 				.getElementsByClassName('preview')
-	// 				.insertAdjacentHTML('afterbegin', previewHtml);
-	// 	});
-	// }
+	// playlistPromise.then(function showPreview(playlist) {
+	// 	console.log('second function executed');
+	// });
 
 	clearPlaylist = function () {
 		document.getElementById('music-playlist').innerHTML = '';
