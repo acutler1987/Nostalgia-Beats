@@ -157,5 +157,6 @@ const loginModule = (function () {
 	});
 })();
 
-console.log('Listening on 8888');
-app.listen(8888);
+app.listen(8888, function () {
+	console.log('Listening on 8888');
+});

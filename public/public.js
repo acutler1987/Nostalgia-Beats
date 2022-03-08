@@ -5,7 +5,7 @@ let getPlaylist = {};
 // let showPlaylist = {};
 let clearPlaylist = {};
 
-const APIModule = (function () {
+const loginModule = (function () {
 	/**
 	 * Obtains parameters from the hash of the URL
 	 * @return Object
@@ -77,10 +77,16 @@ console.log(access_token);
 
 ///////////////////////////////// UI MODULE //////////////////////////////////
 
-const UIModule = (function () {
+const myPlaylistURL =
+	'https://api.spotify.com/v1/playlists/6s0eMyEF05xmQLZZT0Y1c9';
+
+const searchURL =
+	'https://api.spotify.com/v1/search?query=year%3A2002-2010&type=track&locale=en-US&limit=10';
+
+const APIModule = (function () {
 	getPlaylist = function () {
 		$.ajax({
-			url: 'https://api.spotify.com/v1/playlists/6s0eMyEF05xmQLZZT0Y1c9',
+			url: searchURL,
 			headers: {
 				Authorization: 'Bearer ' + access_token,
 			},
@@ -89,24 +95,26 @@ const UIModule = (function () {
 				// showPlaylist(playlist);
 				// showPreview(playlist);
 				console.log(playlist);
-				console.log(getPlaylist);
 
 				// const playlistPromise = new Promise(function showPlaylist(playlist) {
 				// });
 
 				playlist.tracks.items.forEach(function (track, i) {
 					const trackImage =
-						playlist.tracks.items[i].track.album.images[2].url;
-					const title = playlist.tracks.items[i].track.name;
+						playlist.tracks.items[i].album.images[2].url;
+					// playlist.tracks.items[i].track.album.images[2].url;
+					const title = playlist.tracks.items[i].album.name;
+					// playlist.tracks.items[i].track.name;
 					const artist =
-						playlist.tracks.items[i].track.artists[0].name;
-					const year =
-						playlist.tracks.items[i].track.album.release_date;
-					const trackLink =
-						playlist.tracks.items[i].track.external_urls.spotify;
+						playlist.tracks.items[i].album.artists[0].name;
+					// playlist.tracks.items[i].track.artists[i].name;
+					const year = playlist.tracks.items[i].album.release_date;
+					// playlist.tracks.items[i].track.album.release_date;
+					const trackLink = playlist.tracks.items[i].album.href;
+					// playlist.tracks.items[i].track.external_urls.spotify;
 					const length =
-						Math.trunc(playlist.tracks.items[i].track.duration_ms) /
-						1000;
+						Math.trunc(playlist.tracks.items[i].duration_ms) / 1000;
+					// Math.trunc(playlist.tracks.items[i].track.duration_ms) /1000;
 
 					const html = `
 						<li class="song-container">
