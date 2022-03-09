@@ -88,25 +88,42 @@ async function calcAge() {
 		'age-results'
 	).innerHTML = `You attended highschool / college from ${highSchoolStart} to ${collegeEnd}`;
 
-	$.ajax({
-		url: `https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=10`,
-		headers: {
-			Authorization: 'Bearer ' + access_token,
-		},
-		success: function (response) {
-			console.log(response);
-			const playlist = response.json();
-			console.log(playlist);
-			return playlist;
-		},
-	});
+	let response = await fetch(
+		`https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=10`,
+		{
+			headers: {
+				Authorization: 'Bearer ' + access_token,
+			},
+		}
+	);
 
-	// let response = await fetch(
-	// 	`https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=10`
-	// );
-
-	// return playlist;
+	let data = await response.json();
+	// console.log(data);
+	return data;
 }
+
+// async () => {
+// 	await calcAge().then((data) => console.log(data));
+// };
+
+// $.ajax({
+// 	url: `https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=10`,
+// 	headers: {
+// 		Authorization: 'Bearer ' + access_token,
+// 	},
+// 	success: function (response) {
+// 		console.log(response);
+// 		const playlist = response.json();
+// 		console.log(playlist);
+// 		return playlist;
+// 	},
+// });
+
+// let response = await fetch(
+// 	`https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=10`
+// );
+
+// return playlist;
 
 ///////////////////////////////// API MODULE //////////////////////////////////
 
@@ -120,22 +137,22 @@ async function displayTracks() {
 	const tracksData = await calcAge();
 	console.log(tracksData);
 
-	playlist.tracks.items.forEach(function (track, i) {
-		const trackImage = playlist.tracks.items[i].album.images[2].url;
-		// playlist.tracks.items[i].track.album.images[2].url;
-		const title = playlist.tracks.items[i].name;
-		// playlist.tracks.items[i].track.name;
-		const artist = playlist.tracks.items[i].album.artists[0].name;
-		// playlist.tracks.items[i].track.artists[i].name;
-		const year = playlist.tracks.items[i].album.release_date;
-		// playlist.tracks.items[i].track.album.release_date;
-		const trackLink = playlist.tracks.items[i].album.href;
-		// playlist.tracks.items[i].track.external_urls.spotify;
-		const length = Math.trunc(playlist.tracks.items[i].duration_ms) / 1000;
-		// Math.trunc(playlist.tracks.items[i].track.duration_ms) /1000;
-	});
+	tracksData.tracks.items.forEach(function (track, i) {
+		const trackImage = tracksData.tracks.items[i].album.images[2].url;
+		// tracksData.tracks.items[i].track.album.images[2].url;
+		const title = tracksData.tracks.items[i].name;
+		// tracksData.tracks.items[i].track.name;
+		const artist = tracksData.tracks.items[i].album.artists[0].name;
+		// tracksData.tracks.items[i].track.artists[i].name;
+		const year = tracksData.tracks.items[i].album.release_date;
+		// tracksData.tracks.items[i].track.album.release_date;
+		const trackLink = tracksData.tracks.items[i].album.href;
+		// tracksData.tracks.items[i].track.external_urls.spotify;
+		const length =
+			Math.trunc(tracksData.tracks.items[i].duration_ms) / 1000;
+		// Math.trunc(tracksData.tracks.items[i].track.duration_ms) /1000;
 
-	const html = `
+		const html = `
 			<li class="song-container">
 			<div class="track-image" style="background-image: url(${trackImage})">
 			</div>
@@ -149,28 +166,29 @@ async function displayTracks() {
 			<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
 			</div>
 			</li>
-		`;
+			`;
 
-	document
-		.getElementById('music-playlist')
-		.insertAdjacentHTML('afterbegin', html);
+		document
+			.getElementById('music-playlist')
+			.insertAdjacentHTML('afterbegin', html);
 
-	function showPreview(playlist) {
-		playlist.tracks.items.forEach(function (track, i) {
-			const trackPreview = playlist.tracks.items[i].track.preview_url;
+		function showPreview(playlist) {
+			playlist.tracks.items.forEach(function (track, i) {
+				const trackPreview = playlist.tracks.items[i].track.preview_url;
 
-			const previewHtml = `
-					<video class="preview-player" controls name="media">
-					<source src=${trackPreview} type="audio/mpeg">
-					</video>
-				`;
+				const previewHtml = `
+			<video class="preview-player" controls name="media">
+			<source src=${trackPreview} type="audio/mpeg">
+			</video>
+			`;
 
-			if (trackPreview)
-				document
-					.getElementsByClassName('preview')
-					.insertAdjacentHTML('afterbegin', previewHtml);
-		});
-	}
+				if (trackPreview)
+					document
+						.getElementsByClassName('preview')
+						.insertAdjacentHTML('afterbegin', previewHtml);
+			});
+		}
+	});
 
 	$('.login').hide();
 	$('.loggedin').show();
