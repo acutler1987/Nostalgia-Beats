@@ -89,7 +89,7 @@ async function calcAge() {
 	).innerHTML = `You attended highschool / college from ${highSchoolStart} to ${collegeEnd}`;
 
 	let response = await fetch(
-		`https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=10`,
+		`https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=50`,
 		{
 			headers: {
 				Authorization: 'Bearer ' + access_token,
@@ -102,36 +102,7 @@ async function calcAge() {
 	return data;
 }
 
-// async () => {
-// 	await calcAge().then((data) => console.log(data));
-// };
-
-// $.ajax({
-// 	url: `https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=10`,
-// 	headers: {
-// 		Authorization: 'Bearer ' + access_token,
-// 	},
-// 	success: function (response) {
-// 		console.log(response);
-// 		const playlist = response.json();
-// 		console.log(playlist);
-// 		return playlist;
-// 	},
-// });
-
-// let response = await fetch(
-// 	`https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=10`
-// );
-
-// return playlist;
-
 ///////////////////////////////// API MODULE //////////////////////////////////
-
-// const myPlaylistURL =
-// 	'https://api.spotify.com/v1/playlists/6s0eMyEF05xmQLZZT0Y1c9';
-
-// const testSearchURL =
-// 	'https://api.spotify.com/v1/search?query=year%3A2002-2010&type=track&locale=en-US&limit=10';
 
 async function displayTracks() {
 	const tracksData = await calcAge();
@@ -198,27 +169,8 @@ async function displayTracks() {
 	};
 }
 
-// const APIModule = (function () {
-// 	getPlaylist = function () {
-// 		$.ajax({
-// 			url: searchURL,
-// 			headers: {
-// 				Authorization: 'Bearer ' + access_token,
-// 			},
-// 			success: function (response) {
-// 				const playlist = response;
-// 				// showPlaylist(playlist);
-// 				// showPreview(playlist);
-// 				console.log(playlist);
-
-// 				// const playlistPromise = new Promise(function showPlaylist(playlist) {
-// 				// });
-// 			},
-// 		});
-// 	};
-
-// 	// playlistPromise.then(function showPreview(playlist) {
-// 	// 	console.log('second function executed');
-// 	// });
-
-// })();
+function savePlaylist() {
+	let response = await fetch(
+		`https://api.spotify.com/v1/users/${config.client_id}/playlists`
+	);
+}
