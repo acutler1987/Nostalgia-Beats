@@ -1,5 +1,7 @@
 'use strict';
 
+const config = require('./config.js');
+
 let access_token = {};
 let getPlaylist = {};
 // let showPlaylist = {};
@@ -169,7 +171,7 @@ async function displayTracks() {
 	};
 }
 
-function savePlaylist() {
+async function savePlaylist() {
 	let response = await fetch(
 		`https://api.spotify.com/v1/users/${config.client_id}/playlists`
 	);
