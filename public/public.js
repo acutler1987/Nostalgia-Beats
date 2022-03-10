@@ -3,11 +3,12 @@
 const config = require('./config.js');
 
 let access_token = {};
+let userID = {};
 let getPlaylist = {};
 // let showPlaylist = {};
 let clearPlaylist = {};
 
-const loginModule = (function () {
+(function loginModule() {
 	/**
 	 * Obtains parameters from the hash of the URL
 	 * @return Object
@@ -41,7 +42,9 @@ const loginModule = (function () {
 				},
 				success: function (response) {
 					const playerName = response.display_name;
+					userID = response.id;
 					// console.log(playerName);
+					// console.log(userID);
 					$('.login').hide();
 					$('.loggedin').show();
 				},
@@ -52,29 +55,34 @@ const loginModule = (function () {
 			$('.loggedin').hide();
 		}
 		////////////////////// Obtain New Token is broken //////////////////////////////
-		document.getElementById('obtain-new-token').addEventListener(
-			'click',
-			function () {
-				$.ajax({
-					url: '/refresh_token',
-					data: {
-						refresh_token: refresh_token,
-					},
-				}).done(function (data) {
-					access_token = data.access_token;
-					oauthPlaceholder.innerHTML = oauthTemplate({
-						access_token: access_token,
-						refresh_token: refresh_token,
-					});
-				});
-			},
-			false
-		);
-		return access_token;
+		// document.getElementById('obtain-new-token').addEventListener(
+		// 	'click',
+		// 	function () {
+		// 		$.ajax({
+		// 			url: '/refresh_token',
+		// 			data: {
+		// 				refresh_token: refresh_token,
+		// 			},
+		// 		}).done(function (data) {
+		// 			access_token = data.access_token;
+		// 			oauthPlaceholder.innerHTML = oauthTemplate({
+		// 				access_token: access_token,
+		// 				refresh_token: refresh_token,
+		// 			});
+		// 		});
+		// 	},
+		// 	false
+		// );
+		return [access_token, userID];
 	}
 })();
 
-console.log(access_token);
+(async function getUserInfo() {
+	[access_token, userID] = await loginModule();
+	console.log(access_token);
+	console.log(userID);
+})();
+
 ///////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////// AGE MODULE ////////////////////////////////////
@@ -170,9 +178,10 @@ async function displayTracks() {
 		document.getElementById('music-playlist').innerHTML = '';
 	};
 }
-
+/*
 async function savePlaylist() {
 	let response = await fetch(
-		`https://api.spotify.com/v1/users/${config.client_id}/playlists`
+		`https://api.spotify.com/v1/users/${}/playlists`
 	);
 }
+*/
