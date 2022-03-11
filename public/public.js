@@ -1,6 +1,6 @@
 'use strict';
 
-const config = require('./config.js');
+// const config = require('./config.js');
 
 let access_token = {};
 let userID = {};
@@ -35,20 +35,26 @@ let clearPlaylist = {};
 		alert('There was an error during the authentication');
 	} else {
 		if (access_token) {
+			let data = false;
 			$.ajax({
 				url: 'https://api.spotify.com/v1/me',
+				dataType: 'json',
+				async: false,
 				headers: {
 					Authorization: 'Bearer ' + access_token,
 				},
 				success: function (response) {
-					const playerName = response.display_name;
-					userID = response.id;
-					// console.log(playerName);
-					// console.log(userID);
+					data = response;
+					console.log(data);
 					$('.login').hide();
 					$('.loggedin').show();
 				},
+				error: function (error) {
+					console.log(error);
+				},
 			});
+			console.log(data);
+			return data;
 		} else {
 			// render initial screen
 			$('.login').show();
@@ -73,14 +79,16 @@ let clearPlaylist = {};
 		// 	},
 		// 	false
 		// );
-		return [access_token, userID];
+		const userData = data;
+		console.log(data);
+		return [access_token, data];
 	}
 })();
 
 (async function getUserInfo() {
-	[access_token, userID] = await loginModule();
+	[access_token, userData] = await loginModule();
 	console.log(access_token);
-	console.log(userID);
+	console.log(userData);
 })();
 
 ///////////////////////////////////////////////////////////////////////////
