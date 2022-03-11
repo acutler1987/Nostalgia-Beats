@@ -79,8 +79,11 @@ let clearPlaylist = {};
 		// 	},
 		// 	false
 		// );
-		const userData = data;
-		console.log(data);
+		(async function getUserData() {
+			const userData = data;
+			console.log(data);
+			return data;
+		});
 		return [access_token, data];
 	}
 })();
