@@ -1,5 +1,7 @@
 'use strict';
 
+// const { post } = require('spotify-web-api-node/src/http-manager');
+
 // const config = require('./config.js');
 
 let access_token = {};
@@ -7,6 +9,7 @@ let userID = {};
 let getPlaylist = {};
 // let showPlaylist = {};
 let clearPlaylist = {};
+let tracksData = {};
 
 (function loginModule() {
 	/**
@@ -53,11 +56,6 @@ let clearPlaylist = {};
 					console.log(error);
 				},
 			});
-			// 	const getUserData = (function () {
-			// 	const userData = data;
-			// 	console.log(userData);
-			// 	return userData;
-			// })();
 		} else {
 			// render initial screen
 			$('.login').show();
@@ -87,12 +85,6 @@ let clearPlaylist = {};
 	}
 })();
 
-// (async function getUserInfo() {
-// 	[access_token, userJson] = await loginModule();
-// 	console.log(access_token);
-// 	console.log(userJson);
-// })();
-
 ///////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////// AGE MODULE ////////////////////////////////////
@@ -109,7 +101,7 @@ async function calcAge() {
 	).innerHTML = `You attended highschool / college from ${highSchoolStart} to ${collegeEnd}`;
 
 	let response = await fetch(
-		`https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=50`,
+		`https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=12`,
 		{
 			headers: {
 				Authorization: 'Bearer ' + access_token,
@@ -125,8 +117,8 @@ async function calcAge() {
 ///////////////////////////////// API MODULE //////////////////////////////////
 
 async function displayTracks() {
-	const tracksData = await calcAge();
-	console.log(tracksData);
+	tracksData = await calcAge();
+	// console.log(tracksData);
 
 	tracksData.tracks.items.forEach(function (track, i) {
 		const trackImage = tracksData.tracks.items[i].album.images[2].url;
@@ -181,42 +173,100 @@ async function displayTracks() {
 	clearPlaylist = function () {
 		document.getElementById('music-playlist').innerHTML = '';
 	};
+	return tracksData;
 }
 
 //////////////////////////// Save Playlist Module /////////////////////////
 
 function savePlaylistModule() {
-	(async function getUserData() {
+	let userData = {};
+	let playlist = {};
+	/////////////////////// First, get the users ID...
+	async function getUserData() {
 		let response = await fetch('https://api.spotify.com/v1/me', {
 			headers: {
 				Authorization: 'Bearer ' + access_token,
 			},
-		});
-
-		let userData = await response.json();
-		let userId = userData.id;
-		// console.log(userData);
-		// console.log(userID);
-
-		let createPlaylist = $.ajax({
-			url: `https://api.spotify.com/v1/users/${userId}/playlists`,
-			type: 'POST',
-			headers: {
-				Authorization: 'Bearer ' + access_token,
-			},
-			body: {
-				name: 'Nostalgia Beats',
-				description: 'it worked!',
-				public: true,
-			},
-			success: function (result) {
-				console.log(result);
-			},
-			error: function (error) {
+		})
+			.then(async (response) => {
+				userData = await response.json();
+				return userData;
+			})
+			.catch((error) => {
 				console.log(error);
-			},
-		});
+			});
+		return userData;
+	}
 
-		// return createPlaylist.json();
+	/////////////////// Then, plug that user ID into a 'create playlist' api POST...
+	async function createPlaylist() {
+		let userId = userData.id;
+		let response = await fetch(
+			`https://api.spotify.com/v1/users/${userId}/playlists`,
+			{
+				method: 'POST',
+				headers: {
+					Authorization: 'Bearer ' + access_token,
+					'Content-Type': 'application/json',
+				},
+				// PROBLEM SOLVED: fetch POST body MUST match 'Content-Type' header, NOT an object!
+				body: JSON.stringify({
+					name: 'Nostalgia Beats',
+					description: 'it worked!',
+					public: true,
+				}),
+			}
+		)
+			.then(async (response) => {
+				playlist = await response.json();
+				return playlist;
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		return playlist;
+	}
+
+	async function populatePlaylist() {
+		/////////////// Use a loop to populate a list of songs:
+		/////////////// Finally, push the current songs into the playlist:
+		console.log(playlist);
+		console.log(tracksData);
+		let trackListJSON = {};
+		let playlistId = playlist.id;
+		let trackList = [];
+		tracksData.tracks.items.forEach(function (track, i) {
+			trackList.push(JSON.stringify(tracksData.tracks.items[i].uri));
+		});
+		// trackListJSON = JSON.stringify(trackList);
+		console.log(typeof trackList);
+		console.log(trackList);
+
+		let response = await fetch(
+			`https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+			{
+				method: 'POST',
+				headers: {
+					Authorization: 'Bearer ' + access_token,
+					'Content-Type': 'application/json',
+				},
+				// example uri array under 'body': {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh","spotify:track:1301WleyT98MSxVHPZCA6M"], "position": 3}
+				body: JSON.stringify({
+					uris: `${trackList}`,
+				}),
+			}
+		)
+			.then((response) => {
+				return response.json();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
+	(async () => {
+		await getUserData();
+		await createPlaylist();
+		await populatePlaylist();
 	})();
 }

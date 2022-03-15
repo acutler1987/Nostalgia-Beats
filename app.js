@@ -41,7 +41,8 @@ const loginModule = (function () {
 		res.cookie(stateKey, state);
 
 		// requesting authorization
-		var scope = 'user-read-private user-read-email playlist-modify-public';
+		var scope =
+			'user-read-private user-read-email playlist-modify-public playlist-modify-private';
 		res.redirect(
 			'https://accounts.spotify.com/authorize?' +
 				querystring.stringify({
