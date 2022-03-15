@@ -35,17 +35,17 @@ let clearPlaylist = {};
 		alert('There was an error during the authentication');
 	} else {
 		if (access_token) {
-			let data = false;
+			// let data = false;
 			$.ajax({
 				url: 'https://api.spotify.com/v1/me',
-				dataType: 'json',
-				async: false,
+				// dataType: 'json',
+				// async: false,
 				headers: {
 					Authorization: 'Bearer ' + access_token,
 				},
 				success: function (response) {
-					data = response;
-					console.log(data);
+					// data = response;
+					// console.log(data);
 					$('.login').hide();
 					$('.loggedin').show();
 				},
@@ -53,8 +53,11 @@ let clearPlaylist = {};
 					console.log(error);
 				},
 			});
-			console.log(data);
-			return data;
+			// 	const getUserData = (function () {
+			// 	const userData = data;
+			// 	console.log(userData);
+			// 	return userData;
+			// })();
 		} else {
 			// render initial screen
 			$('.login').show();
@@ -79,20 +82,16 @@ let clearPlaylist = {};
 		// 	},
 		// 	false
 		// );
-		(async function getUserData() {
-			const userData = data;
-			console.log(data);
-			return data;
-		});
-		return [access_token, data];
+		// const userJson = getUserData();
+		return access_token;
 	}
 })();
 
-(async function getUserInfo() {
-	[access_token, userData] = await loginModule();
-	console.log(access_token);
-	console.log(userData);
-})();
+// (async function getUserInfo() {
+// 	[access_token, userJson] = await loginModule();
+// 	console.log(access_token);
+// 	console.log(userJson);
+// })();
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -131,18 +130,12 @@ async function displayTracks() {
 
 	tracksData.tracks.items.forEach(function (track, i) {
 		const trackImage = tracksData.tracks.items[i].album.images[2].url;
-		// tracksData.tracks.items[i].track.album.images[2].url;
 		const title = tracksData.tracks.items[i].name;
-		// tracksData.tracks.items[i].track.name;
 		const artist = tracksData.tracks.items[i].album.artists[0].name;
-		// tracksData.tracks.items[i].track.artists[i].name;
 		const year = tracksData.tracks.items[i].album.release_date;
-		// tracksData.tracks.items[i].track.album.release_date;
 		const trackLink = tracksData.tracks.items[i].album.href;
-		// tracksData.tracks.items[i].track.external_urls.spotify;
 		const length =
 			Math.trunc(tracksData.tracks.items[i].duration_ms) / 1000;
-		// Math.trunc(tracksData.tracks.items[i].track.duration_ms) /1000;
 
 		const html = `
 			<li class="song-container">
@@ -189,10 +182,41 @@ async function displayTracks() {
 		document.getElementById('music-playlist').innerHTML = '';
 	};
 }
-/*
-async function savePlaylist() {
-	let response = await fetch(
-		`https://api.spotify.com/v1/users/${}/playlists`
-	);
+
+//////////////////////////// Save Playlist Module /////////////////////////
+
+function savePlaylistModule() {
+	(async function getUserData() {
+		let response = await fetch('https://api.spotify.com/v1/me', {
+			headers: {
+				Authorization: 'Bearer ' + access_token,
+			},
+		});
+
+		let userData = await response.json();
+		let userId = userData.id;
+		// console.log(userData);
+		// console.log(userID);
+
+		let createPlaylist = $.ajax({
+			url: `https://api.spotify.com/v1/users/${userId}/playlists`,
+			type: 'POST',
+			headers: {
+				Authorization: 'Bearer ' + access_token,
+			},
+			body: {
+				name: 'Nostalgia Beats',
+				description: 'it worked!',
+				public: true,
+			},
+			success: function (result) {
+				console.log(result);
+			},
+			error: function (error) {
+				console.log(error);
+			},
+		});
+
+		// return createPlaylist.json();
+	})();
 }
-*/
