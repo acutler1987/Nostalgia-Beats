@@ -1,13 +1,15 @@
 'use strict';
 
+// const { json } = require('express/lib/response');
+
 // const { post } = require('spotify-web-api-node/src/http-manager');
 
 // const config = require('./config.js');
 
+// Declaring some objects we will use later, putting them into the global scope:
 let access_token = {};
 let userID = {};
 let getPlaylist = {};
-// let showPlaylist = {};
 let clearPlaylist = {};
 let tracksData = {};
 
@@ -229,19 +231,15 @@ function savePlaylistModule() {
 
 	async function populatePlaylist() {
 		/////////////// Use a loop to populate a list of songs:
-		/////////////// Finally, push the current songs into the playlist:
-		console.log(playlist);
-		console.log(tracksData);
-		let trackListJSON = {};
+
 		let playlistId = playlist.id;
 		let trackList = [];
 		tracksData.tracks.items.forEach(function (track, i) {
-			trackList.push(JSON.stringify(tracksData.tracks.items[i].uri));
+			trackList.push(tracksData.tracks.items[i].uri);
 		});
-		// trackListJSON = JSON.stringify(trackList);
-		console.log(typeof trackList);
-		console.log(trackList);
+		// console.log(trackList);
 
+		/////////////// Finally, push the current songs into the playlist:
 		let response = await fetch(
 			`https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
 			{
@@ -250,9 +248,8 @@ function savePlaylistModule() {
 					Authorization: 'Bearer ' + access_token,
 					'Content-Type': 'application/json',
 				},
-				// example uri array under 'body': {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh","spotify:track:1301WleyT98MSxVHPZCA6M"], "position": 3}
 				body: JSON.stringify({
-					uris: `${trackList}`,
+					uris: trackList,
 				}),
 			}
 		)
