@@ -23,14 +23,24 @@
 				<div class="loggedin">
 					<label for="age">How old are you?</label>
 					<input type="text" id="age" name="age" /><br /><br />
-					<button type="button" onclick="calcAge()">Calculate</button>
+					<button type="button" class="buttons" onclick="calcAge()">
+						Calculate
+					</button>
 					<br /><br />
 					<div id="age-results"><br /></div>
 					<br /><br />
-					<button type="button" onclick="displayTracks()">
+					<button
+						type="button"
+						class="buttons"
+						onclick="displayTracks()"
+					>
 						Show Playlist
 					</button>
-					<button type="button" onclick="clearPlaylist()">
+					<button
+						type="button"
+						class="buttons"
+						onclick="clearPlaylist()"
+					>
 						Clear Playlist
 					</button>
 				</div>
@@ -69,7 +79,11 @@
 					</ul>
 				</div>
 				<div id="save-playlist-wrapper">
-					<button type="button" onclick="savePlaylistModule()">
+					<button
+						type="button"
+						class="buttons"
+						onclick="savePlaylistModule()"
+					>
 						Save This Playlist
 					</button>
 				</div>
@@ -87,7 +101,7 @@
 			</div>
 		</div>
 		<footer>
-			<button type="button" id="obtain-new-token">
+			<button type="button" class="buttons" id="obtain-new-token">
 				Obtain New Token
 			</button>
 			<p>Last updated <span id="demo"></span></p>
