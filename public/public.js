@@ -120,7 +120,7 @@ async function calcAge() {
 
 async function displayTracks() {
 	tracksData = await calcAge();
-	console.log(tracksData);
+	// console.log(tracksData);
 
 	tracksData.tracks.items.forEach(function (track, i) {
 		const trackImage = tracksData.tracks.items[i].album.images[2].url,

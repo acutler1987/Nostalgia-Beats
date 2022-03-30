@@ -150,7 +150,7 @@ ul li {
 /******************************* start of preview div **********************************/
 .preview {
 	display: flex;
-	/* align-items: center; */
+	align-items: right;
 	justify-content: center;
 	height: 80px;
 	flex-grow: 1;
@@ -167,6 +167,7 @@ ul li {
 	flex-grow: 0;
 	height: 80px;
 	width: 80px;
+	text-align: right;
 }
 
 .length {
