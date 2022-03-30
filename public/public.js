@@ -120,30 +120,50 @@ async function calcAge() {
 
 async function displayTracks() {
 	tracksData = await calcAge();
-	// console.log(tracksData);
+	console.log(tracksData);
 
 	tracksData.tracks.items.forEach(function (track, i) {
-		const trackImage = tracksData.tracks.items[i].album.images[2].url;
-		const title = tracksData.tracks.items[i].name;
-		const artist = tracksData.tracks.items[i].album.artists[0].name;
-		const year = tracksData.tracks.items[i].album.release_date;
-		const trackLink = tracksData.tracks.items[i].album.href;
-		const length =
-			Math.trunc(tracksData.tracks.items[i].duration_ms) / 1000;
+		const trackImage = tracksData.tracks.items[i].album.images[2].url,
+			title = tracksData.tracks.items[i].name,
+			artist = tracksData.tracks.items[i].album.artists[0].name,
+			year = tracksData.tracks.items[i].album.release_date,
+			trackLink = tracksData.tracks.items[i].album.href,
+			trackPreview = tracksData.tracks.items[i].preview_url;
+
+		const length = function () {
+			let ms = tracksData.tracks.items[i].duration_ms,
+				min = Math.floor((ms / 1000 / 60) << 0),
+				sec = Math.floor((ms / 1000) % 60),
+				fullSec = sec < 10 ? '0' + sec : sec;
+			return `${min}:${fullSec}`;
+		};
+
+		let previewHtml = trackPreview
+			? `
+			<video class="preview-player" controls name="media">
+			<source src=${trackPreview} type="audio/mpeg">
+			</video>`
+			: '';
 
 		const html = `
 			<li class="song-container">
-			<div class="track-image" style="background-image: url(${trackImage})">
-			</div>
-			<div class="track-description">
-			<div class="title"><p>${title}</p></div>
-			<div class="artist"><p>${artist}</p></div>
-			<div class="year"><p>${year}</p></div>
-			</div>
-			<div class="preview"></div>
-			<div class="length-link"><div class="length"><p>${length}</p></div>
-			<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
-			</div>
+				<div class="track-image" style="background-image: url(${trackImage})"></div>
+				<div class="track-description">
+					<div class="title"><p>${title}</p></div>
+					<div class="artist"><p>${artist}</p></div>
+					<div class="year"><p>${year}</p></div>
+				</div>
+				<div class="preview">${previewHtml}</div>
+				<div class="length-link">
+					<div class="length">
+						<p>${length()}</p>
+					</div>
+					<div class="go-to-spotify">
+						<a href=${trackLink}>
+							<p>Play On Spotify</p>
+						</a>
+					</div>
+				</div>
 			</li>
 			`;
 
@@ -152,20 +172,7 @@ async function displayTracks() {
 			.insertAdjacentHTML('afterbegin', html);
 
 		function showPreview(playlist) {
-			playlist.tracks.items.forEach(function (track, i) {
-				const trackPreview = playlist.tracks.items[i].track.preview_url;
-
-				const previewHtml = `
-			<video class="preview-player" controls name="media">
-			<source src=${trackPreview} type="audio/mpeg">
-			</video>
-			`;
-
-				if (trackPreview)
-					document
-						.getElementsByClassName('preview')
-						.insertAdjacentHTML('afterbegin', previewHtml);
-			});
+			playlist.tracks.items.forEach(function (track, i) {});
 		}
 	});
 

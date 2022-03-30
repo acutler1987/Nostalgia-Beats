@@ -46,18 +46,17 @@
 				</div>
 			</div>
 		</nav>
-		<div class="wrapper">
-			<div class="loggedin">
-				<div class="music-container">
-					<div class="music-menu">
+		<div id="player-wrapper">
+			<div class="loggedin" id="music-container">
+				<!-- <div class="music-menu">
 						<ul class="menu-ul">
 							<li class="menu-li"><a href="#">Songs</a></li>
 							<li class="menu-li"><a href="#">Artists</a></li>
 							<li class="menu-li"><a href="#">Year</a></li>
 						</ul>
-					</div>
-					<ul id="music-playlist">
-						<!--
+					</div> -->
+				<ul id="music-playlist">
+					<!--
 					<li class="song-container">
 						<div class="track-image" style="background-image: url(${trackImage})"></div>
 						<div class="track-description">
@@ -65,31 +64,46 @@
 							<div class="artist"><p>${artist}</p></div>
 							<div class="year"><p>${year}</p></div>
 						</div>
-						<div class="preview">
-							<video class="preview-player" controls name="media">
-								<source src=${trackPreview} type="audio/mpeg">
-							</video>
-						</div>
-						<div class="length-preview-container">
-							<div class="length"><p>${length}</p></div>
-							<div class="go-to-spotify"><a href=${trackLink}><p>Play On Spotify</p></a></div>
+						<div class="preview"></div>
+						<div class="length-link">
+							<div class="length">
+								<p>${length}</p>
+							</div>
+							<div class="go-to-spotify">
+								<a href=${trackLink}>
+									<p>Play On Spotify</p>
+								</a>
+							</div>
 						</div>
 					</li>
 					-->
-					</ul>
-				</div>
-				<div id="save-playlist-wrapper">
-					<button
-						type="button"
-						class="buttons"
-						onclick="savePlaylistModule()"
-					>
-						Save This Playlist
-					</button>
-				</div>
+				</ul>
 			</div>
-
-			<div class="wrapper-text">
+			<div class="loggedin" id="save-playlist-wrapper">
+				<button
+					type="button"
+					class="buttons"
+					onclick="savePlaylistModule()"
+				>
+					Save This Playlist
+				</button>
+			</div>
+			<div class="login" id="directions">
+				<h1 id="directions-header">How It Works:</h1>
+				<ol>
+					<li>Log in to Spotify.</li>
+					<li>Enter your age.</li>
+					<li>
+						Get a playlist of songs that were popular when you were
+						young.
+					</li>
+					<li>Edit your playlist to taste.</li>
+					<li>Save that playlist to your Spotify account.</li>
+				</ol>
+			</div>
+		</div>
+		<footer>
+			<div class="footer-text">
 				<h1>nos·tal·gia</h1>
 				<p><i>noun</i></p>
 				<p>
@@ -99,12 +113,10 @@
 				</p>
 				<p>- Oxford Languages</p>
 			</div>
-		</div>
-		<footer>
 			<button type="button" class="buttons" id="obtain-new-token">
 				Obtain New Token
 			</button>
-			<p>Last updated <span id="demo"></span></p>
+			<p class="footer-text">Last updated <span id="demo"></span></p>
 			<script>
 				document.getElementById('demo').innerHTML =
 					document.lastModified;

@@ -37,25 +37,24 @@ nav {
 	background-color: #fff;
 }
 
-.wrapper {
+#player-wrapper {
 	background-color: #d77067;
+	display: block;
 	margin: 0px 30px 0px 30px;
 	min-height: 30rem;
+	padding: 20px;
 }
 
-.wrapper-text {
-	margin: 0px;
-	padding: 50px;
-}
-
-.music-container {
+#music-container {
 	border: 5px solid #f8efb6;
-	border-radius: 25px;
-	margin: 0 auto;
+	/* border-radius: 25px; */
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
 	width: 80%;
 }
 
-.music-menu {
+/* .music-menu {
 	background-color: #f8efb6;
 	border-radius: 25px;
 }
@@ -72,26 +71,37 @@ nav {
 	border: 5px solid #f8efb6;
 	flex-grow: 1;
 	text-align: center;
-}
+} */
 
 ul li {
 	list-style-type: none;
 }
 
+#directions {
+	align-items: center;
+	line-height: 200%;
+	padding: 10% 25% 0% 25%;
+}
+
+#directions-header {
+	text-align: center;
+}
+
 #music-playlist {
 	background-color: #ababab;
 	border: 5px solid #724559;
-	border-radius: 25px;
+	/* border-radius: 25px; */
 	font-family: sans-serif;
 	font-size: 14px;
 	height: 400px;
+	margin: auto;
 	overflow-y: scroll;
 	padding: 0px 0px 0px 0px;
 }
 /******************************* each of these contains an individual song preview **********************************/
 .song-container {
 	border: 2px solid #000;
-	border-radius: 25px;
+	/* border-radius: 25px; */
 	display: flex;
 	flex-direction: row;
 	height: 80px;
@@ -140,6 +150,7 @@ ul li {
 /******************************* start of preview div **********************************/
 .preview {
 	display: flex;
+	/* align-items: center; */
 	justify-content: center;
 	height: 80px;
 	flex-grow: 1;
@@ -177,7 +188,12 @@ footer {
 	border-radius: 0px 0px 25px 25px;
 	text-align: center;
 	min-height: 10rem;
-	margin: -30px 30px 30px 30px;
+	margin: 0px 30px 30px 30px;
+}
+
+.footer-text {
+	margin: 0px;
+	padding: 30px;
 }
 
 .login,
