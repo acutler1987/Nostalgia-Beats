@@ -101,7 +101,6 @@ ul li {
 /******************************* each of these contains an individual song preview **********************************/
 .song-container {
 	border: 2px solid #000;
-	/* border-radius: 25px; */
 	display: flex;
 	flex-direction: row;
 	height: 80px;
