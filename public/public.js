@@ -98,9 +98,25 @@ async function calcAge() {
 	const ageInput = document.getElementById('age').value;
 	const highSchoolStart = curYear - (ageInput - 14);
 	const collegeEnd = curYear - (ageInput - 22);
-	document.getElementById(
-		'age-results'
-	).innerHTML = `You attended highschool / college from ${highSchoolStart} to ${collegeEnd}`;
+
+	const html = `
+		<h3>You attended highschool / college from ${highSchoolStart} to ${collegeEnd}</h3>
+		<br />
+		<br />
+		<br />
+		<button
+			type="button"
+			class="buttons"
+			onclick="displayTracks()"
+		>Build Playlist</button>
+		<button
+			type="button"
+			class="buttons"
+			onclick="clearPlaylist()"
+		>Clear Playlist</button>
+		`;
+
+	document.getElementById('playlist-customizer').innerHTML = html;
 
 	let response = await fetch(
 		`https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=12`,
@@ -146,12 +162,12 @@ async function displayTracks() {
 			: '';
 
 		const html = `
-			<li class="song-container">
+		<li class="song-container">
 				<div class="track-image" style="background-image: url(${trackImage})"></div>
 				<div class="track-description">
-					<div class="title"><p>${title}</p></div>
-					<div class="artist"><p>${artist}</p></div>
-					<div class="year"><p>${year}</p></div>
+					<p class="title">${title}</p>
+					<p class="description-text">${artist}</p>
+					<p class="description-text">${year}</p>
 				</div>
 				<div class="preview">${previewHtml}</div>
 				<div class="length-link">

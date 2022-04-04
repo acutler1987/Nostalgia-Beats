@@ -27,8 +27,6 @@ nav {
 
 .buttons {
 	border: 1px solid black;
-	/* height: 25px;
-	width: 80px; */
 	background-color: #e7e7e7;
 	border-radius: 10px;
 }
@@ -47,31 +45,11 @@ nav {
 
 #music-container {
 	border: 5px solid #f8efb6;
-	/* border-radius: 25px; */
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 20px;
 	width: 80%;
 }
-
-/* .music-menu {
-	background-color: #f8efb6;
-	border-radius: 25px;
-}
-
-.menu-ul {
-	display: flex;
-	flex-direction: row;
-	margin: 10px;
-	padding: initial;
-}
-
-.menu-li {
-	background-color: #d09c8e;
-	border: 5px solid #f8efb6;
-	flex-grow: 1;
-	text-align: center;
-} */
 
 ul li {
 	list-style-type: none;
@@ -90,7 +68,6 @@ ul li {
 #music-playlist {
 	background-color: #ababab;
 	border: 5px solid #724559;
-	/* border-radius: 25px; */
 	font-family: sans-serif;
 	font-size: 14px;
 	height: 400px;
@@ -118,6 +95,7 @@ ul li {
 	height: 80px;
 	width: 80px;
 	flex-grow: 0;
+	flex-shrink: 0;
 }
 
 /******************************* start of the description div **********************************/
@@ -125,25 +103,24 @@ ul li {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+	flex-shrink: 1;
 }
 
 .title {
-	height: 40px;
-	font-size: 1.5em;
+	font-size: 16px;
 	display: flex;
+	flex-grow: 1;
 	align-items: center;
+	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	word-wrap: break-word;
 }
 
-.artist {
-	height: 20px;
-	display: flex;
-	align-items: center;
-}
-
-.year {
-	height: 20px;
-	display: flex;
-	align-items: center;
+.description-text {
+	font-size: 12px;
+	flex-grow: 0;
+	margin: 0px 0px 2px 0px;
 }
 
 /******************************* start of preview div **********************************/
@@ -151,12 +128,13 @@ ul li {
 	display: flex;
 	align-items: right;
 	justify-content: center;
+	flex-grow: 0;
+	flex-shrink: 0;
 	height: 80px;
-	flex-grow: 1;
 }
 
 .preview-player {
-	width: 212px;
+	width: 200px;
 }
 
 /******************************* start of length and link div **********************************/
@@ -164,8 +142,10 @@ ul li {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 0;
+	flex-shrink: 0;
 	height: 80px;
 	width: 80px;
+	margin-right: 10px;
 	text-align: right;
 }
 
@@ -206,3 +186,4 @@ footer {
 	white-space: nowrap;
 	width: 500px;
 }
+/*********************************************************************************/
