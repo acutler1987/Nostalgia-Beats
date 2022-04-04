@@ -12,6 +12,7 @@ let userID = {};
 let getPlaylist = {};
 let clearPlaylist = {};
 let tracksData = {};
+let methuselahPlaylist = {};
 
 (function loginModule() {
 	/**
@@ -99,9 +100,8 @@ async function calcAge() {
 	const highSchoolStart = curYear - (ageInput - 14);
 	const collegeEnd = curYear - (ageInput - 22);
 
-	const html = `
+	const validAgeHtml = `
 		<h3>You attended highschool / college from ${highSchoolStart} to ${collegeEnd}</h3>
-		<br />
 		<br />
 		<br />
 		<button
@@ -113,30 +113,81 @@ async function calcAge() {
 			type="button"
 			class="buttons"
 			onclick="clearPlaylist()"
-		>Clear Playlist</button>
+		>Start Over</button>
 		`;
 
-	document.getElementById('playlist-customizer').innerHTML = html;
+	const tooYoungHtml = `
+		<h3>Sorry, you're not old enough to have wistful memories yet...</h3>
+	`;
 
-	let response = await fetch(
-		`https://api.spotify.com/v1/search?query=year%3A${highSchoolStart}-${collegeEnd}&type=track&locale=en-US&limit=12`,
-		{
-			headers: {
-				Authorization: 'Bearer ' + access_token,
-			},
-		}
-	);
+	const tooOldHtml = `
+		<h3>Yeah, right!</h3>
+		<br />
+		<button
+			type="button"
+			class="buttons"
+			onclick="methuselahPlaylist()"
+		>No, I'm actually ${ageInput}!</button>
+	`;
 
-	let data = await response.json();
-	// console.log(data);
+	const reallyOldHtml = `
+	<h3>Okay, Methuselah...</h3>
+		<br />
+		<br />
+		<button
+			type="button"
+			class="buttons"
+			onclick="displayTracks()"
+		>Build Playlist</button>
+		<button
+			type="button"
+			class="buttons"
+			onclick="clearPlaylist()"
+		>Start Over</button>
+		`;
+
+	if (ageInput >= 120) {
+		document.getElementById('playlist-customizer').innerHTML = tooOldHtml;
+	} else if (ageInput < 22) {
+		document.getElementById('playlist-customizer').innerHTML = tooYoungHtml;
+	} else {
+		document.getElementById('playlist-customizer').innerHTML = validAgeHtml;
+	}
+
+	methuselahPlaylist = function () {
+		document.getElementById('playlist-customizer').innerHTML =
+			reallyOldHtml;
+	};
+
+	const data = `${highSchoolStart}-${collegeEnd}`;
+	console.log(data);
+
 	return data;
 }
 
 ///////////////////////////////// API MODULE //////////////////////////////////
 
 async function displayTracks() {
-	tracksData = await calcAge();
-	// console.log(tracksData);
+	const ageRange = await calcAge();
+	console.log(ageRange);
+
+	(async function getTracks() {
+		let response = await fetch(
+			`https://api.spotify.com/v1/search?query=year%3A${ageRange}&type=track&locale=en-US&limit=12`,
+			{
+				headers: {
+					Authorization: 'Bearer ' + access_token,
+				},
+			}
+		);
+
+		let tracksData = await response.json();
+		// console.log(data);
+		return tracksData;
+	})();
+
+	// tracksData = await getTracks();
+	console.log(tracksData);
 
 	tracksData.tracks.items.forEach(function (track, i) {
 		const trackImage = tracksData.tracks.items[i].album.images[2].url,
@@ -161,7 +212,7 @@ async function displayTracks() {
 			</video>`
 			: '';
 
-		const html = `
+		const songContainerHtml = `
 		<li class="song-container">
 				<div class="track-image" style="background-image: url(${trackImage})"></div>
 				<div class="track-description">
@@ -185,19 +236,31 @@ async function displayTracks() {
 
 		document
 			.getElementById('music-playlist')
-			.insertAdjacentHTML('afterbegin', html);
-
-		function showPreview(playlist) {
-			playlist.tracks.items.forEach(function (track, i) {});
-		}
+			.insertAdjacentHTML('afterbegin', songContainerHtml);
 	});
+
+	clearPlaylist = function () {
+		document.getElementById('age').value = '';
+		document.getElementById('playlist-customizer').innerHTML = '';
+		document.getElementById('music-playlist').innerHTML = '';
+		document.getElementById('save-playlist-wrapper').innerHTML = '';
+	};
+
+	const savePlaylistHtml = `
+		<button
+			type="button"
+			class="buttons"
+			onclick="savePlaylistModule()"
+		>Save This Playlist</button>
+		`;
+
+	document
+		.getElementById('save-playlist-wrapper')
+		.insertAdjacentHTML('afterbegin', savePlaylistHtml);
 
 	$('.login').hide();
 	$('.loggedin').show();
 
-	clearPlaylist = function () {
-		document.getElementById('music-playlist').innerHTML = '';
-	};
 	return tracksData;
 }
 
