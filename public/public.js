@@ -13,6 +13,7 @@ let getPlaylist = {};
 let clearPlaylist = {};
 let tracksData = {};
 let methuselahPlaylist = {};
+let getTracks = {};
 
 (function loginModule() {
 	/**
@@ -116,48 +117,50 @@ async function calcAge() {
 		>Start Over</button>
 		`;
 
-	const tooYoungHtml = `
-		<h3>Sorry, you're not old enough to have wistful memories yet...</h3>
-	`;
+	// const tooYoungHtml = `
+	// 	<h3>Sorry, you're not old enough to have wistful memories yet...</h3>
+	// `;
 
-	const tooOldHtml = `
-		<h3>Yeah, right!</h3>
-		<br />
-		<button
-			type="button"
-			class="buttons"
-			onclick="methuselahPlaylist()"
-		>No, I'm actually ${ageInput}!</button>
-	`;
+	// const tooOldHtml = `
+	// 	<h3>Yeah, right!</h3>
+	// 	<br />
+	// 	<button
+	// 		type="button"
+	// 		class="buttons"
+	// 		onclick="methuselahPlaylist()"
+	// 	>No, I'm actually ${ageInput}!</button>
+	// `;
 
-	const reallyOldHtml = `
-	<h3>Okay, Methuselah...</h3>
-		<br />
-		<br />
-		<button
-			type="button"
-			class="buttons"
-			onclick="displayTracks()"
-		>Build Playlist</button>
-		<button
-			type="button"
-			class="buttons"
-			onclick="clearPlaylist()"
-		>Start Over</button>
-		`;
+	// const reallyOldHtml = `
+	// <h3>Okay, Methuselah...</h3>
+	// 	<br />
+	// 	<br />
+	// 	<button
+	// 		type="button"
+	// 		class="buttons"
+	// 		onclick="displayTracks()"
+	// 	>Build Playlist</button>
+	// 	<button
+	// 		type="button"
+	// 		class="buttons"
+	// 		onclick="clearPlaylist()"
+	// 	>Start Over</button>
+	// 	`;
 
-	if (ageInput >= 120) {
-		document.getElementById('playlist-customizer').innerHTML = tooOldHtml;
-	} else if (ageInput < 22) {
-		document.getElementById('playlist-customizer').innerHTML = tooYoungHtml;
-	} else {
-		document.getElementById('playlist-customizer').innerHTML = validAgeHtml;
-	}
+	// if (ageInput >= 120) {
+	// 	document.getElementById('playlist-customizer').innerHTML = tooOldHtml;
+	// } else if (ageInput < 22) {
+	// 	document.getElementById('playlist-customizer').innerHTML = tooYoungHtml;
+	// } else {
+	// 	document.getElementById('playlist-customizer').innerHTML = validAgeHtml;
+	// }
 
-	methuselahPlaylist = function () {
-		document.getElementById('playlist-customizer').innerHTML =
-			reallyOldHtml;
-	};
+	// methuselahPlaylist = function () {
+	// 	document.getElementById('playlist-customizer').innerHTML =
+	// 		reallyOldHtml;
+	// };
+
+	document.getElementById('playlist-customizer').innerHTML = validAgeHtml;
 
 	const data = `${highSchoolStart}-${collegeEnd}`;
 	console.log(data);
@@ -166,6 +169,23 @@ async function calcAge() {
 }
 
 ///////////////////////////////// API MODULE //////////////////////////////////
+
+const songSearchEndpoint = `https://api.spotify.com/v1/search?query=year%3A${ageRange}&type=track&locale=en-US&limit=12`;
+const userProfileEndpoint = 'https://api.spotify.com/v1/me';
+const createPlaylistEndpoint = `https://api.spotify.com/v1/users/${userId}/playlists`;
+const savePlaylistEndpoint = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+
+const fetchAPICall = async function (endpoint, method) {
+	let response = await fetch(endpoint, {
+		method: method,
+		headers: {
+			Authorization: 'Bearer ' + access_token,
+		},
+	});
+
+	let data = await response.json();
+	return data;
+};
 
 async function displayTracks() {
 	const ageRange = await calcAge();
@@ -186,7 +206,7 @@ async function displayTracks() {
 		return tracksData;
 	})();
 
-	// tracksData = await getTracks();
+	tracksData = await getTracks();
 	console.log(tracksData);
 
 	tracksData.tracks.items.forEach(function (track, i) {
