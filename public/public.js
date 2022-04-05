@@ -7,13 +7,14 @@
 // const config = require('./config.js');
 
 // Declaring some objects we will use later, putting them into the global scope:
-let access_token = {};
-let userID = {};
-let getPlaylist = {};
-let clearPlaylist = {};
-let tracksData = {};
-let methuselahPlaylist = {};
-let getTracks = {};
+let access_token = {},
+	userID = {},
+	getPlaylist = {},
+	clearPlaylist = {},
+	tracksData = {},
+	getTracks = {},
+	ageRange = {};
+//  methuselahPlaylist = {}
 
 (function loginModule() {
 	/**
@@ -66,24 +67,25 @@ let getTracks = {};
 			$('.loggedin').hide();
 		}
 		////////////////////// Obtain New Token is broken //////////////////////////////
-		// document.getElementById('obtain-new-token').addEventListener(
-		// 	'click',
-		// 	function () {
-		// 		$.ajax({
-		// 			url: '/refresh_token',
-		// 			data: {
-		// 				refresh_token: refresh_token,
-		// 			},
-		// 		}).done(function (data) {
-		// 			access_token = data.access_token;
-		// 			oauthPlaceholder.innerHTML = oauthTemplate({
-		// 				access_token: access_token,
-		// 				refresh_token: refresh_token,
-		// 			});
-		// 		});
-		// 	},
-		// 	false
-		// );
+		document.getElementById('obtain-new-token').addEventListener(
+			'click',
+			function () {
+				$.ajax({
+					url: '/refresh_token',
+					data: {
+						refresh_token: refresh_token,
+					},
+				}).done(function (data) {
+					access_token = data.access_token;
+					oauthPlaceholder.innerHTML = oauthTemplate({
+						access_token: access_token,
+						refresh_token: refresh_token,
+					});
+					console.log(access_token);
+				});
+			},
+			false
+		);
 		// const userJson = getUserData();
 		return access_token;
 	}
@@ -162,36 +164,17 @@ async function calcAge() {
 
 	document.getElementById('playlist-customizer').innerHTML = validAgeHtml;
 
-	const data = `${highSchoolStart}-${collegeEnd}`;
-	console.log(data);
+	ageRange = `${highSchoolStart}-${collegeEnd}`;
+	// console.log(ageRange);
 
-	return data;
+	return ageRange;
 }
 
 ///////////////////////////////// API MODULE //////////////////////////////////
 
-const songSearchEndpoint = `https://api.spotify.com/v1/search?query=year%3A${ageRange}&type=track&locale=en-US&limit=12`;
-const userProfileEndpoint = 'https://api.spotify.com/v1/me';
-const createPlaylistEndpoint = `https://api.spotify.com/v1/users/${userId}/playlists`;
-const savePlaylistEndpoint = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
-
-const fetchAPICall = async function (endpoint, method) {
-	let response = await fetch(endpoint, {
-		method: method,
-		headers: {
-			Authorization: 'Bearer ' + access_token,
-		},
-	});
-
-	let data = await response.json();
-	return data;
-};
-
 async function displayTracks() {
-	const ageRange = await calcAge();
-	console.log(ageRange);
-
-	(async function getTracks() {
+	async function getTracks() {
+		let data = {};
 		let response = await fetch(
 			`https://api.spotify.com/v1/search?query=year%3A${ageRange}&type=track&locale=en-US&limit=12`,
 			{
@@ -199,15 +182,19 @@ async function displayTracks() {
 					Authorization: 'Bearer ' + access_token,
 				},
 			}
-		);
-
-		let tracksData = await response.json();
-		// console.log(data);
-		return tracksData;
-	})();
+		)
+			.then(async (response) => {
+				data = await response.json();
+				return data;
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		return data;
+	}
 
 	tracksData = await getTracks();
-	console.log(tracksData);
+	// console.log(tracksData);
 
 	tracksData.tracks.items.forEach(function (track, i) {
 		const trackImage = tracksData.tracks.items[i].album.images[2].url,
